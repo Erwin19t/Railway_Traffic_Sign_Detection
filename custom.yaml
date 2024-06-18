@@ -3,8 +3,8 @@
 ## 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
 
 #path: dataset root dir 
-train: /content/drive/MyDrive/Railway_Signals/Dataset/Train
-val: /content/drive/MyDrive/Railway_Signals/Dataset/Validation
+train: /content/drive/MyDrive/Dataset/Train
+val: /content/drive/MyDrive/Dataset/Validation
 # test:  # test images (optional)
 
 # Classes
