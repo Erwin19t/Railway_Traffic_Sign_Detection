@@ -3,11 +3,10 @@ import mlflow
 import mlflow.pytorch
 import argparse
 from yolov5 import train
-from pathlib import Path
 
 yolo_path = '/content/DagsHub_mlFlow_Playground/yolov5'
 FILE = Path(yolo_path).resolve()
-ROOT = FILE.parents[0]  # YOLOv5 root directory
+ROOT = FILE  # YOLOv5 root directory
 
 def parse_opt(known=False):
     """Parses command-line arguments for YOLOv5 training, validation, and testing."""
@@ -72,48 +71,48 @@ def main():
 
         # Train the model
         results = train.train(
-            weights=args.weights,
-            cfg=args.cfg,
-            data=args.data,
-            hyp=args.hyp,
-            epochs=args.epochs,
-            batch_size=args.batch_size,
-            imgsz=args.imgsz,
-            rect=args.rect,
-            resume=args.resume,
-            nosave=args.nosave,
-            noval=args.noval,
-            noautoanchor=args.noautoanchor,
-            noplots=args.noplots,
-            evolve=args.evolve,
-            evolve_population=args.evolve_population,
-            resume_evolve=args.resume_evolve,
-            bucket=args.bucket,
-            cache=args.cache,
-            image_weights=args.image_weights,
-            device=args.device,
-            multi_scale=args.multi_scale,
-            single_cls=args.single_cls,
-            optimizer=args.optimizer,
-            sync_bn=args.sync_bn,
-            workers=args.workers,
-            project=args.project,
-            name=args.name,
-            exist_ok=args.exist_ok,
-            quad=args.quad,
-            cos_lr=args.cos_lr,
-            label_smoothing=args.label_smoothing,
-            patience=args.patience,
-            freeze=args.freeze,
-            save_period=args.save_period,
-            seed=args.seed,
-            local_rank=args.local_rank,
-            entity=args.entity,
-            upload_dataset=args.upload_dataset,
-            bbox_interval=args.bbox_interval,
-            artifact_alias=args.artifact_alias,
-            ndjson_console=args.ndjson_console,
-            ndjson_file=args.ndjson_file
+            weights             =args.weights,
+            cfg                 =args.cfg,
+            data                =args.data,
+            hyp                 =args.hyp,
+            epochs              =args.epochs,
+            batch_size          =args.batch_size,
+            imgsz               =args.imgsz,
+            rect                =args.rect,
+            resume              =args.resume,
+            nosave              =args.nosave,
+            noval               =args.noval,
+            noautoanchor        =args.noautoanchor,
+            noplots             =args.noplots,
+            evolve              =args.evolve,
+            evolve_population   =args.evolve_population,
+            resume_evolve       =args.resume_evolve,
+            bucket              =args.bucket,
+            cache               =args.cache,
+            image_weights       =args.image_weights,
+            device              =args.device,
+            multi_scale         =args.multi_scale,
+            single_cls          =args.single_cls,
+            optimizer           =args.optimizer,
+            sync_bn             =args.sync_bn,
+            workers             =args.workers,
+            project             =args.project,
+            name                =args.name,
+            exist_ok            =args.exist_ok,
+            quad                =args.quad,
+            cos_lr              =args.cos_lr,
+            label_smoothing     =args.label_smoothing,
+            patience            =args.patience,
+            freeze              =args.freeze,
+            save_period         =args.save_period,
+            seed                =args.seed,
+            local_rank          =args.local_rank,
+            entity              =args.entity,
+            upload_dataset      =args.upload_dataset,
+            bbox_interval       =args.bbox_interval,
+            artifact_alias      =args.artifact_alias,
+            ndjson_console      =args.ndjson_console,
+            ndjson_file         =args.ndjson_file
         )
 
         # Log metrics
