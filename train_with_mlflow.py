@@ -5,7 +5,7 @@ import argparse
 from yolov5 import train
 from pathlib import Path
 
-yolo_path = '/content/DagsHub_mlFlow_Playground/yolov5'
+yolo_path = '/content/DagsHub_mlFlow_Playground/yolov5/'
 FILE = Path(yolo_path).resolve()
 ROOT = FILE  # YOLOv5 root directory
 
