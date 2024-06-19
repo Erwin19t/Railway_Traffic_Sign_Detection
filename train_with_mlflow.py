@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 sys.path.insert(0, '/yolov5/')  # Add the 'utils' folder to the path
-ROOT = "/content/DagsHub_mlFlow_Playground/yolov5"
+ROOT = Path("/content/DagsHub_mlFlow_Playground/yolov5")
 
 def parse_opt(known=False):
     """Parses command-line arguments for YOLOv5 training, validation, and testing."""
