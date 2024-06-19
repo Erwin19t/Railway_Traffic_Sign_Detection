@@ -3,7 +3,7 @@ import mlflow
 import mlflow.pytorch
 import argparse
 import sys
-from yolov5 import main
+from yolov5.train import main
 from pathlib import Path
 
 
@@ -63,7 +63,7 @@ def parse_opt(known=False):
 
     return parser.parse_known_args()[0] if known else parser.parse_args()
 
-def main(opt):
+def my_main(opt):
 
     dagshub.init("DagsHub_mlFlow_Playground", "erwin19t", mlflow=True)
     # Start an MLflow run
@@ -72,7 +72,7 @@ def main(opt):
         mlflow.log_params(vars(opt))
 
         # Train the model
-        results = main.main(opt)
+        results = main(opt)
 
         # Log metrics
         mlflow.log_metric('precision', results['precision'])
@@ -87,4 +87,4 @@ def main(opt):
 
 if __name__ == "__main__":
     opt = parse_opt()
-    main(opt)
+    my_main(opt)
