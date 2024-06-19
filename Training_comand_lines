@@ -1,7 +1,0 @@
-git clone https://github.com/ultralytics/yolov5.git
-
-wget https://github.com/ultralytics/yolov5/releases/download/v6.0/yolov5s.pt
-
-python train.py --img 928 --batch 6 --epochs 200 --data C:/Users/erwin/Documents/GitHub/Python-Machine-Learning-License_Plate_Characters_Recognition/YOLOV5/data/Dataset_Plate.yaml --weights C:/Users/erwin/Documents/GitHub/Python-Machine-Learning-License_Plate_Characters_Recognition/YOLOV5/models/yolov5s.pt --nosave --cache ram
-
-python3 train.py --img 928 --batch 6 --epochs 200 --data C:/Users/erwin/Documents/GitHub/Python-Machine-Learning-License_Plate_Characters_Recognition/YOLOV5/data/Dataset_Characters.yaml --weights C:/Users/erwin/Documents/GitHub/Python-Machine-Learning-License_Plate_Characters_Recognition/YOLOV5/models/yolov5n.pt --nosave --cache ram
