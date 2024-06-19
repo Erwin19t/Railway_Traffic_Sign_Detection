@@ -339,6 +339,7 @@ def train(hyp, opt, device, callbacks):
     )
     
     #Here must be mlflow and dagshub init functions
+    dagshub.init("DagsHub_mlFlow_Playground", "erwin19t", mlflow=True)
     with mlflow.start_run():
         
         for epoch in range(start_epoch, epochs):  # epoch ------------------------------------------------------------------
