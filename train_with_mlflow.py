@@ -2,16 +2,20 @@ import dagshub
 import mlflow
 import mlflow.pytorch
 import argparse
-from yolov5 import train
+import sys
+from yolov5 import main
 from pathlib import Path
+
+
+sys.path.insert(0, '/yolov5/')  # Add the 'utils' folder to the path
 
 def parse_opt(known=False):
     """Parses command-line arguments for YOLOv5 training, validation, and testing."""
     parser = argparse.ArgumentParser()
-    parser.add_argument("--weights", type=str, default="yolov5s.pt", help="initial weights path")
+    parser.add_argument("--weights", type=str, default=ROOT / "yolov5s.pt", help="initial weights path")
     parser.add_argument("--cfg", type=str, default="", help="model.yaml path")
-    parser.add_argument("--data", type=str, default="data/coco128.yaml", help="dataset.yaml path")
-    parser.add_argument("--hyp", type=str, default="data/hyps/hyp.scratch-low.yaml", help="hyperparameters path")
+    parser.add_argument("--data", type=str, default=ROOT / "data/coco128.yaml", help="dataset.yaml path")
+    parser.add_argument("--hyp", type=str, default=ROOT / "data/hyps/hyp.scratch-low.yaml", help="hyperparameters path")
     parser.add_argument("--epochs", type=int, default=100, help="total training epochs")
     parser.add_argument("--batch-size", type=int, default=16, help="total batch size for all GPUs, -1 for autobatch")
     parser.add_argument("--imgsz", "--img", "--img-size", type=int, default=640, help="train, val image size (pixels)")
@@ -22,7 +26,9 @@ def parse_opt(known=False):
     parser.add_argument("--noautoanchor", action="store_true", help="disable AutoAnchor")
     parser.add_argument("--noplots", action="store_true", help="save no plot files")
     parser.add_argument("--evolve", type=int, nargs="?", const=300, help="evolve hyperparameters for x generations")
-    parser.add_argument("--evolve_population", type=str, default="data/hyps", help="location for loading population")
+    parser.add_argument(
+        "--evolve_population", type=str, default=ROOT / "data/hyps", help="location for loading population"
+    )
     parser.add_argument("--resume_evolve", type=str, default=None, help="resume evolve from last generation")
     parser.add_argument("--bucket", type=str, default="", help="gsutil bucket")
     parser.add_argument("--cache", type=str, nargs="?", const="ram", help="image --cache ram/disk")
@@ -33,7 +39,7 @@ def parse_opt(known=False):
     parser.add_argument("--optimizer", type=str, choices=["SGD", "Adam", "AdamW"], default="SGD", help="optimizer")
     parser.add_argument("--sync-bn", action="store_true", help="use SyncBatchNorm, only available in DDP mode")
     parser.add_argument("--workers", type=int, default=8, help="max dataloader workers (per RANK in DDP mode)")
-    parser.add_argument("--project", default="runs/train", help="save to project/name")
+    parser.add_argument("--project", default=ROOT / "runs/train", help="save to project/name")
     parser.add_argument("--name", default="exp", help="save to project/name")
     parser.add_argument("--exist-ok", action="store_true", help="existing project/name ok, do not increment")
     parser.add_argument("--quad", action="store_true", help="quad dataloader")
@@ -57,60 +63,16 @@ def parse_opt(known=False):
 
     return parser.parse_known_args()[0] if known else parser.parse_args()
 
-def main():
-    args = parse_opt()
+def main(opt):
 
     dagshub.init("DagsHub_mlFlow_Playground", "erwin19t", mlflow=True)
     # Start an MLflow run
     with mlflow.start_run():
         # Log parameters
-        mlflow.log_params(vars(args))
+        mlflow.log_params(vars(opt))
 
         # Train the model
-        results = train.train(
-            weights             =args.weights,
-            cfg                 =args.cfg,
-            data                =args.data,
-            hyp                 =args.hyp,
-            epochs              =args.epochs,
-            batch_size          =args.batch_size,
-            imgsz               =args.imgsz,
-            rect                =args.rect,
-            resume              =args.resume,
-            nosave              =args.nosave,
-            noval               =args.noval,
-            noautoanchor        =args.noautoanchor,
-            noplots             =args.noplots,
-            evolve              =args.evolve,
-            evolve_population   =args.evolve_population,
-            resume_evolve       =args.resume_evolve,
-            bucket              =args.bucket,
-            cache               =args.cache,
-            image_weights       =args.image_weights,
-            device              =args.device,
-            multi_scale         =args.multi_scale,
-            single_cls          =args.single_cls,
-            optimizer           =args.optimizer,
-            sync_bn             =args.sync_bn,
-            workers             =args.workers,
-            project             =args.project,
-            name                =args.name,
-            exist_ok            =args.exist_ok,
-            quad                =args.quad,
-            cos_lr              =args.cos_lr,
-            label_smoothing     =args.label_smoothing,
-            patience            =args.patience,
-            freeze              =args.freeze,
-            save_period         =args.save_period,
-            seed                =args.seed,
-            local_rank          =args.local_rank,
-            entity              =args.entity,
-            upload_dataset      =args.upload_dataset,
-            bbox_interval       =args.bbox_interval,
-            artifact_alias      =args.artifact_alias,
-            ndjson_console      =args.ndjson_console,
-            ndjson_file         =args.ndjson_file
-        )
+        results = main.main(opt)
 
         # Log metrics
         mlflow.log_metric('precision', results['precision'])
@@ -124,4 +86,5 @@ def main():
         mlflow.end_run()
 
 if __name__ == "__main__":
-    main()
+    opt = parse_opt()
+    main(opt)
