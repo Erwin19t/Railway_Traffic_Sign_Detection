@@ -96,6 +96,7 @@ from utils.torch_utils import (
 
 import dagshub
 import mlflow
+from load_results import load
 
 LOCAL_RANK = int(os.getenv("LOCAL_RANK", -1))  # https://pytorch.org/docs/stable/elastic/run.html
 RANK = int(os.getenv("RANK", -1))
@@ -342,7 +343,19 @@ def train(hyp, opt, device, callbacks):
     dagshub.init("DagsHub_mlFlow_Playground", "erwin19t", mlflow=True)
     with mlflow.start_run():
         
-        for epoch in range(start_epoch, epochs):  # epoch ------------------------------------------------------------------
+        #
+        #
+        #
+        #
+        #
+        #load must be here
+        #
+        #
+        #
+        #
+        #
+        
+        for epoch in range(start_epoch , epochs):  # epoch ------------------------------------------------------------------
             
             mlflow.log_params(vars(opt))
             
