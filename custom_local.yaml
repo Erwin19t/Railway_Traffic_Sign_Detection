@@ -45,4 +45,4 @@ names: ['Advertencia (1 luz amarilla) y Chasis A (3 luces verticales)',
         'Advertencia (1 luz amarilla) y Chasis R (6 luces en un disco)',
         'Apagado (Sin luz) y Chasis R (6 luces en un disco)',
         'Advertencia y desaceleración 30 y chasis H (6 y 3 luces en S)',
-        'Luz blanca (1 luz blanca) y Chasis A (3 luces verticales)',]  # class names
+        'Luz blanca (1 luz blanca) y Chasis A (3 luces verticales)']  # class names
