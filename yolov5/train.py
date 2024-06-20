@@ -492,14 +492,14 @@ def train(hyp, opt, device, callbacks):
                 break  # must break all DDP ranks
             
             
-             # Log metrics
+            # Log metrics
             mlflow.log_metric('precision', results[0])
             mlflow.log_metric('recall', results[1])
             mlflow.log_metric('map_50', results[2])
             mlflow.log_metric('map_50-95', results[3])
             mlflow.log_metric('val_boxloss', results[4])
             mlflow.log_metric('val_objloss', results[5])
-            mlflow.log_metric('val_clsloss', results[7])
+            mlflow.log_metric('val_clsloss', results[6])
             # end epoch ----------------------------------------------------------------------------------------------------
         # end training -----------------------------------------------------------------------------------------------------
         if RANK in {-1, 0}:
