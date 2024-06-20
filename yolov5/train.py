@@ -493,13 +493,13 @@ def train(hyp, opt, device, callbacks):
             
             
             # Log metrics
-            mlflow.log_metric('precision', results[0])
-            mlflow.log_metric('recall', results[1])
-            mlflow.log_metric('map_50', results[2])
-            mlflow.log_metric('map_50-95', results[3])
-            mlflow.log_metric('val_boxloss', results[4])
-            mlflow.log_metric('val_objloss', results[5])
-            mlflow.log_metric('val_clsloss', results[6])
+            mlflow.log_metric('precision', results[0], step=epoch)
+            mlflow.log_metric('recall', results[1], step=epoch)
+            mlflow.log_metric('map_50', results[2], step=epoch)
+            mlflow.log_metric('map_50-95', results[3], step=epoch)
+            mlflow.log_metric('val_boxloss', results[4], step=epoch)
+            mlflow.log_metric('val_objloss', results[5], step=epoch)
+            mlflow.log_metric('val_clsloss', results[6], step=epoch)
             # end epoch ----------------------------------------------------------------------------------------------------
         # end training -----------------------------------------------------------------------------------------------------
         if RANK in {-1, 0}:
@@ -511,7 +511,7 @@ def train(hyp, opt, device, callbacks):
                         LOGGER.info(f"\nValidating {f}...")
                         results, _, _ = validate.run(
                             data_dict,
-                            batch_size=batch_size // WORLD_SIZE * 2,
+                            batch_size=batch_size // , step=epoch, timestamp=nowWORLD_SIZE * 2,
                             imgsz=imgsz,
                             model=attempt_load(f, device).half(),
                             iou_thres=0.65 if is_coco else 0.60,  # best pycocotools at iou 0.65
