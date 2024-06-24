@@ -96,7 +96,13 @@ from utils.torch_utils import (
 
 import dagshub
 import mlflow
-from load_results import load
+
+# Append the directory containing otherscript.py to the Python path
+current_dir = os.path.dirname(os.path.realpath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
+
+from import_exp_results import load
 
 LOCAL_RANK = int(os.getenv("LOCAL_RANK", -1))  # https://pytorch.org/docs/stable/elastic/run.html
 RANK = int(os.getenv("RANK", -1))
@@ -342,18 +348,10 @@ def train(hyp, opt, device, callbacks):
     #Here must be mlflow and dagshub init functions
     dagshub.init("DagsHub_mlFlow_Playground", "erwin19t", mlflow=True)
     with mlflow.start_run():
-        
-        #
-        #
-        #
-        #
-        #
-        #load must be here
-        #
-        #
-        #
-        #
-        #
+        last_epoch = load(opt.user)
+
+        start_epoch = last_epoch
+        epochs = epochs + last_epoch
         
         for epoch in range(start_epoch , epochs):  # epoch ------------------------------------------------------------------
             
@@ -586,6 +584,7 @@ def parse_opt(known=False):
     parser.add_argument("--save-period", type=int, default=-1, help="Save checkpoint every x epochs (disabled if < 1)")
     parser.add_argument("--seed", type=int, default=0, help="Global training seed")
     parser.add_argument("--local_rank", type=int, default=-1, help="Automatic DDP Multi-GPU argument, do not modify")
+    parser.add_argument("--user", type=str, default=None, help="User name experiment (Horlando or Erwin)")
 
     # Logger arguments
     parser.add_argument("--entity", default=None, help="Entity")
