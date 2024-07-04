@@ -6,9 +6,7 @@ import numpy as np
 class RecognitionModel:
     def __init__(self, path, args):
         logging.info("Loading models...")
-        print("Model path", path[0])
-        print("Weights path", os.path.join(path[1], args.exp, "weights", "last.pt"))
-        self.Sign_model = torch.hub.load(path[0], 'custom', source='local', path=os.path.join(path[1], args.exp, "weights", "last.pt"), force_reload=True, _verbose=False)
+        self.Sign_model = torch.hub.load(path[0], 'custom', source='local', path=os.path.join(path[1], args.exp, "weights", "last.pt"), force_reload=True, verbose=False)
         logging.info("Model loaded successfully.")
 
     def FRSign_recognition(self, img):
@@ -31,12 +29,8 @@ class RecognitionModel:
             #Store information
             Results[i, :] = (x_min, y_min, x_max, y_max, confidence, name_class)
         
-        #information is sorted according to xmin values
-        sorted_indexes = np.argsort(Results[:, 0])
-        Results_sorted = Results[sorted_indexes]
-        
         #rows with low confidence are removed
-        Results_Filtered = self.threshold(Results_sorted)
+        Results_Filtered = self.threshold(Results)
         return Results_Filtered
     
     def threshold(self, Array):

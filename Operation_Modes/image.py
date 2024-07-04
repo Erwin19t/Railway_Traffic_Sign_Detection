@@ -25,7 +25,7 @@ def image_mode(args, path, recognition_model):
         
     cv2.imshow(f"{args.file}.png", img)
     
-    print("Required time to detection is: %s", (time.time() - start_time))
+    print("Required time to detection is:", (time.time() - start_time))
     
     cv2.waitKey(0)
     cv2.destroyAllWindows()
