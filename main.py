@@ -1,5 +1,6 @@
 import argparse
 import logging
+import os
 from Operation_Modes import image_mode, video_mode
 from Model.model import RecognitionModel
 
@@ -16,14 +17,15 @@ def parse_arguments():
     return parser.parse_args()
 
 def path_list():
-    #List of paths required in the program
+    # List of paths required in the program
+    base_path = "."
     return (
-        "./yolov5/",             # 0: Model Path
-        "./Experiments",         # 1: Experiments Path
-        "./Tests/Images",        # 2: Image Test Folder
-        "./Tests/Videos",        # 3: Video Test Folder
+        os.path.join(base_path, "yolov5"),            # 0: Model Path
+        os.path.join(base_path, "Experiments"),       # 1: Experiments Path
+        os.path.join(base_path, "Tests", "Images"),   # 2: Image Test Folder
+        os.path.join(base_path, "Tests", "Videos"),   # 3: Video Test Folder
     )
-
+    
 def main(args, path):
     #Initializes an instance of the 'RecognitionModel' class
     recognition_model = RecognitionModel(path, args)

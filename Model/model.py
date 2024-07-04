@@ -6,7 +6,9 @@ import numpy as np
 class RecognitionModel:
     def __init__(self, path, args):
         logging.info("Loading models...")
-        self.Sign_model = torch.hub.load(path[0], 'custom', source='local', path=os.path.join(path[1], args.exp, "weights/last.pt"), force_reload=True, _verbose=False)
+        print("Model path", path[0])
+        print("Weights path", os.path.join(path[1], args.exp, "weights", "last.pt"))
+        self.Sign_model = torch.hub.load(path[0], 'custom', source='local', path=os.path.join(path[1], args.exp, "weights", "last.pt"), force_reload=True, _verbose=False)
         logging.info("Model loaded successfully.")
 
     def FRSign_recognition(self, img):
