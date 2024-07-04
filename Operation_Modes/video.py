@@ -2,7 +2,7 @@ import cv2
 import os
 import logging
 import numpy as np
-from Misc.misc import adjust_res
+from Misc.misc import adjust_res, print_boxes
 
 def calculate_delay(cap):
     # Get the frame rate of the video
@@ -25,7 +25,9 @@ def video_mode(args, path, recognition_model):
         
         if not ret:
             logging.ERROR("Can't receive frame (stream end?). Exiting ...")
-            break
+            cap.release()
+            cv2.destroyAllWindows()
+            return
         
         new_size = adjust_res(frame)
         frame = cv2.resize(frame, new_size, interpolation=cv2.INTER_LINEAR)
@@ -36,14 +38,8 @@ def video_mode(args, path, recognition_model):
         Railway_ligths = recognition_model.FRSign_recognition(frame)
         #
         #
-        #print(Railway_ligths)
-        for row in range(len(Railway_ligths)):
-            x1 = int(Railway_ligths[row, 0])
-            y1 = int(Railway_ligths[row, 1])
-            x2 = int(Railway_ligths[row, 2])
-            y2 = int(Railway_ligths[row, 3])
-        
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
+        print(Railway_ligths)
+        print_boxes(frame, Railway_ligths)
                
         cv2.imshow(f"{args.file}.mp4", frame)
         

@@ -1,8 +1,12 @@
 import cv2
 import os
-from Misc.misc import adjust_res
+import time
+from Misc.misc import adjust_res, print_boxes
 
 def image_mode(args, path, recognition_model):
+    
+    start_time = time.time()
+    
     file_path = os.path.join(path[2], f"{args.file}.png")
     img = cv2.imread(file_path)
     
@@ -17,15 +21,12 @@ def image_mode(args, path, recognition_model):
     #
     print(Railway_ligths)
 
-    for row in range(len(Railway_ligths)):
-        x1 = int(Railway_ligths[row, 0])
-        y1 = int(Railway_ligths[row, 1])
-        x2 = int(Railway_ligths[row, 2])
-        y2 = int(Railway_ligths[row, 3])
-        
-        cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 2)
+    print_boxes(img, Railway_ligths)
         
     cv2.imshow(f"{args.file}.png", img)
     
+    print("Required time to detection is: %s", (time.time() - start_time))
+    
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+    
