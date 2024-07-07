@@ -1,12 +1,13 @@
 import cv2
 import os
 import logging
+import time
 import numpy as np
 from Misc.misc import adjust_res, print_boxes
 
-def calculate_delay(cap):
+def calculate_delay(video):
     # Get the frame rate of the video
-    fps = cap.get(cv2.CAP_PROP_FPS)
+    fps = video.get(cv2.CAP_PROP_FPS)
     
     if fps == 0:
         print("Error: Could not retrieve frame rate.")
@@ -17,15 +18,18 @@ def calculate_delay(cap):
 
 def video_mode(args, path, recognition_model):
     file_path = os.path.join(path[3], f"{args.file}.mp4")
-    cap = cv2.VideoCapture(file_path)
-    frame_delay = calculate_delay(cap)
+    video = cv2.VideoCapture(file_path)
+    frame_delay = calculate_delay(video)
     
-    while cap.isOpened():
-        ret, frame = cap.read()
+    frame_counter = 1
+    while video.isOpened():
+        ret, frame = video.read()
+        
+        start_time = time.time()
         
         if not ret:
             logging.ERROR("Can't receive frame (stream end?). Exiting ...")
-            cap.release()
+            video.release()
             cv2.destroyAllWindows()
             return
         
@@ -38,6 +42,7 @@ def video_mode(args, path, recognition_model):
         Railway_ligths = recognition_model.FRSign_recognition(frame)
         #
         #
+        print("Frame: %d  Time: %f" % (frame_counter, (time.time() - start_time)))
         print(Railway_ligths)
         print_boxes(frame, Railway_ligths)
                
@@ -47,5 +52,7 @@ def video_mode(args, path, recognition_model):
         if cv2.waitKey(frame_delay) & 0xFF == ord('q'):
             break
             
-    cap.release()
+        frame_counter+=1
+        
+    video.release()
     cv2.destroyAllWindows()
