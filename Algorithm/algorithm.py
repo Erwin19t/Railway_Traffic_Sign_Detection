@@ -1,12 +1,15 @@
 import numpy as np
-from Misc import Sort
+from Algorithm.sort import Sort
+from Misc.misc import print_boxes
 
 
-def Blink_Detection(frame, Frame_info):
-
-    return None
-
-
+def Blink_Detection(Frame, Frame_Counter, Frame_Info):
+    tracker = Sort()
+    tracks = tracker.update(Frame_Info)
+    print_boxes(Frame, tracks)     
+        
+    
+    
 def List_of_Static_States(code_number):
     #0 - 36 states
     Static_States = (
@@ -82,5 +85,4 @@ def List_of_Blink_States(code_number):
     for state in Blink_States:
         if state[1] == code_number:
             return state[0]
-    
     return None

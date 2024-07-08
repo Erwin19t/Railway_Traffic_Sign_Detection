@@ -24,5 +24,6 @@ def print_boxes(frame, frame_detections):
             y1 = int(frame_detections[row, 1])
             x2 = int(frame_detections[row, 2])
             y2 = int(frame_detections[row, 3])
-        
+
+            cv2.putText(img=frame, text=f"Id: {frame_detections[row, 4]}", org=(x1, y1-10), fontFace=cv2.FONT_HERSHEY_PLAIN, fontScale=1, color=(0,0,255), thickness=1)
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)

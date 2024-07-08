@@ -4,6 +4,7 @@ import logging
 import time
 import numpy as np
 from Misc.misc import adjust_res, print_boxes
+from Algorithm.algorithm import Blink_Detection
 
 def calculate_delay(video):
     # Get the frame rate of the video
@@ -25,7 +26,7 @@ def video_mode(args, path, recognition_model):
     while video.isOpened():
         ret, frame = video.read()
         
-        start_time = time.time()
+        #start_time = time.time()
         
         if not ret:
             logging.ERROR("Can't receive frame (stream end?). Exiting ...")
@@ -42,10 +43,8 @@ def video_mode(args, path, recognition_model):
         Railway_ligths = recognition_model.FRSign_recognition(frame)
         #
         #
-        print("Frame: %d  Time: %f" % (frame_counter, (time.time() - start_time)))
-        print(Railway_ligths)
-        print_boxes(frame, Railway_ligths)
-               
+        Blink_Detection(frame, frame_counter, Railway_ligths)
+           
         cv2.imshow(f"{args.file}.mp4", frame)
         
         # Wait for the calculated frame delay, exit on 'q' key press
