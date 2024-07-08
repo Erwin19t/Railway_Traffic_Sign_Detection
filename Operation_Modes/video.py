@@ -3,8 +3,8 @@ import os
 import logging
 import time
 import numpy as np
-from Misc.misc import adjust_res, print_boxes
-from Algorithm.algorithm import Blink_Detection
+from Misc.misc import adjust_res
+from Algorithm import Blink_Detection, Sort
 
 def calculate_delay(video):
     # Get the frame rate of the video
@@ -22,11 +22,11 @@ def video_mode(args, path, recognition_model):
     video = cv2.VideoCapture(file_path)
     frame_delay = calculate_delay(video)
     
+    tracker = Sort()
+    
     frame_counter = 1
     while video.isOpened():
         ret, frame = video.read()
-        
-        #start_time = time.time()
         
         if not ret:
             logging.ERROR("Can't receive frame (stream end?). Exiting ...")
@@ -43,7 +43,7 @@ def video_mode(args, path, recognition_model):
         Railway_ligths = recognition_model.FRSign_recognition(frame)
         #
         #
-        Blink_Detection(frame, frame_counter, Railway_ligths)
+        Blink_Detection(frame, frame_counter, Railway_ligths, tracker)
            
         cv2.imshow(f"{args.file}.mp4", frame)
         

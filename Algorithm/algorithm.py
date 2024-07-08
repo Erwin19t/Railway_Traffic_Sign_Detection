@@ -3,9 +3,9 @@ from Algorithm.sort import Sort
 from Misc.misc import print_boxes
 
 
-def Blink_Detection(Frame, Frame_Counter, Frame_Info):
-    tracker = Sort()
+def Blink_Detection(Frame, Frame_Counter, Frame_Info, tracker):
     tracks = tracker.update(Frame_Info)
+    print(f"Frame: {Frame_Counter}", tracks)
     print_boxes(Frame, tracks)     
         
     

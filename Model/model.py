@@ -7,6 +7,7 @@ class RecognitionModel:
     def __init__(self, path, args):
         logging.info("Loading models...")
         self.Sign_model = torch.hub.load(path[0], 'custom', source='local', path=os.path.join(path[1], args.exp, "weights", "last.pt"), force_reload=True, verbose=False)
+        self.Sign_model.float()
         logging.info("Model loaded successfully.")
 
     def FRSign_recognition(self, img):
